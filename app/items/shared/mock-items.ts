@@ -41,9 +41,9 @@ export const ITEMS: Item[] = [
         price: 2.15
     },
     {
-        description: "Tyskie",
+        description: "Pomaranczowa Mamba",
         count: 1,
-        price: 2.15
+        price: 14.37
     },
     {
         description: "Tyskie",
