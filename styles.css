@@ -1,0 +1,18 @@
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+#list{
+  overflow-x:scroll;
+  max-height: 80vh;
+  min-height: 80vh;
+}
+total{
+  min-height: 10vh;
+  max-height: 10vh;
+}
+.footer{
+  max-height: 10vh;
+  min-height: 10vh;
+}
