@@ -4,7 +4,7 @@ h1 {
   font-size: 250%;
 }
 #list{
-  overflow-x:scroll;
+  overflow-y: auto;
   max-height: 80vh;
   min-height: 80vh;
 }

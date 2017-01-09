@@ -1,15 +1,15 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { Counter } from './counter'
 import { Item } from './items/shared/item';
 import { Total } from './total/total';
+
 @Component({
   selector: 'my-app',
   template: `
    
-    <div class='col-md-6'>
+    <div class='col-md-6' id="leftBar">
         <total styles="" [(total)]="total"></total>
         <div id="list">
-        <bought-item-list [(products)]="products"></bought-item-list>
+          <bought-item-list [(products)]="products"></bought-item-list>
         </div>
     </div>
     <div class='col-md-6'>
@@ -19,7 +19,6 @@ import { Total } from './total/total';
   `
 })
 export class AppComponent implements OnChanges, OnInit {
-  counterArray: Counter[];
   products: Item[];
   total: Total;
   constructor() { }
