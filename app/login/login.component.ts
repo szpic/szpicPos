@@ -1,21 +1,18 @@
-import { Component }        from '@angular/core';
-import { Router,
-         NavigationExtras } from '@angular/router';
-import { AuthService }      from './../auth.service';
+import { Component, OnDestroy } from '@angular/core';
+import {
+  Router,
+  NavigationExtras
+} from '@angular/router';
+import { AuthService } from './../auth.service';
 
 @Component({
-    moduleId: module.id,
-    templateUrl: 'login.component.html'
-  // template: `
-  //   <h2>LOGIN</h2>
-  //   <p>{{message}}</p>
-  //   <p>
-  //     <button (click)="login()"  *ngIf="!authService.isLoggedIn">Login</button>
-  //   </p>`
+  moduleId: module.id,
+  templateUrl: 'login.component.html'
 })
 export class LoginComponent {
   message: string;
   model: any = {};
+  subcriber: any;
 
   constructor(public authService: AuthService, public router: Router) {
     this.setMessage();
@@ -28,30 +25,35 @@ export class LoginComponent {
   public login() {
     this.message = 'Trying to log in ...';
 
-    this.authService.login(this.model.username, this.model.password)
-    .subscribe(() => {
-      this.setMessage();
-      if (this.authService.isLoggedIn) {
-        // Get the redirect URL from our auth service
-        // If no redirect has been set, use the default
-        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/main';
+    this.subcriber = this.authService.login(this.model.username, this.model.password)
+      .subscribe(data => {
+        console.log("subscribe?");
+        this.setMessage();
+        if (data.status) {
+          this.authService.isLoggedIn = true;
 
-        // Set our navigation extras object
-        // that passes on our global query params and fragment
-        let navigationExtras: NavigationExtras = {
-          preserveQueryParams: true,
-          preserveFragment: true
-        };
+          let redirect = '/main';
 
-        // Redirect the user
-        this.router.navigate([redirect], navigationExtras);
-      }
-    });
+          let navigationExtras: NavigationExtras = {
+            preserveQueryParams: true,
+            preserveFragment: true
+          };
+
+          // Redirect the user
+          this.router.navigate([redirect], navigationExtras);
+        }
+      },
+      error => {
+        console.log("wtf");
+      });
   }
 
   public logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
     this.setMessage();
+  }
+  public ngOnDestroy(): void {
+    this.subcriber.unsubscribe();
   }
 }
