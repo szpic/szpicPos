@@ -1,0 +1,51 @@
+body {
+  font: 100% Helvetica, sans-serif;
+  color: #333; }
+
+#login {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  border-color: black;
+  background-color: #C2D164;
+  padding: 10px;
+  margin-top: 20vh; }
+  #login h2 {
+    margin-bottom: 10px;
+    margin-top: 10px; }
+
+#ta-total {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  border-color: white;
+  background-color: black;
+  font-size: 20px;
+  color: white;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding: 5px; }
+  #ta-total div.ta-total-header {
+    display: flex; }
+    #ta-total div.ta-total-header div {
+      min-width: 30%; }
+    #ta-total div.ta-total-header div.ta-total-values {
+      margin-left: 10px; }
+
+.item {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  border-color: black;
+  background-color: #C2D164;
+  padding: 5px;
+  margin-bottom: 5px; }
+
+.propertyRow {
+  padding: 5px; }
