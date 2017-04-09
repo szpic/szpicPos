@@ -35,7 +35,7 @@
     "zone.js": "^0.7.4"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.5.36",
+    "@types/jasmine": "2.5.36",
     "@types/node": "^6.0.46",
     "canonical-path": "0.0.2",
     "concurrently": "^3.1.0",
@@ -52,7 +52,7 @@
     "protractor": "~4.0.14",
     "rimraf": "^2.5.4",
     "tslint": "^3.15.1",
-    "typescript": "^2.2.10"
+    "typescript": "^2.2.2"
   },
   "repository": {}
 }
