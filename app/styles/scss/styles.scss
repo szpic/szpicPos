@@ -45,3 +45,22 @@ body {
 .propertyRow{
     padding: 5px;
 }
+
+.items{
+    width:90%;
+    min-width:90%;
+    @include set-border(10px,black,2px);
+    background-color: $login-green;
+    padding:10px;
+}
+.oneItem{
+    width: 20%;
+    min-width:20px;
+    background-color: red;
+    border-radius: 2px;
+    margin: 2px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

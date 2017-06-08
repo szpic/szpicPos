@@ -49,3 +49,26 @@ body {
 
 .propertyRow {
   padding: 5px; }
+
+.items {
+  width: 90%;
+  min-width: 90%;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  border-color: black;
+  background-color: #C2D164;
+  padding: 10px; }
+
+.oneItem {
+  width: 20%;
+  min-width: 20px;
+  background-color: red;
+  border-radius: 2px;
+  margin: 2px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }

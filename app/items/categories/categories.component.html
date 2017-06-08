@@ -1,0 +1,5 @@
+<ul class="categories">
+    <li *ngFor="let cat of categories" (click)="changeCategory(cat)"class="category">
+        <span>{{cat.category}}</span>
+    </li>
+</ul>

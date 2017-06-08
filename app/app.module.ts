@@ -14,6 +14,8 @@ import { MainComponent } from './main.component';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth-guard.service';
 import { LoginComponent } from './login/login.component';
+import { Categories } from './items/categories/categories.component';
+import { CategoryService } from './items/shared/category.service';
 
 @NgModule({
   imports: [
@@ -29,9 +31,10 @@ import { LoginComponent } from './login/login.component';
     BoughtItemList,
     ItemList,
     LoginComponent,
-    MainComponent
+    MainComponent,
+    Categories
   ],
   bootstrap: [AppComponent],
-  providers: [AuthService, AuthGuard, ItemService]
+  providers: [AuthService, AuthGuard, ItemService, CategoryService]
 })
 export class AppModule { }
