@@ -19,7 +19,7 @@ import { LoginComponent } from './login/login.component';
       <category (categoryChanged)="categoryChanged($event)"></category>
     </div>
     <div class='col-md-5'>
-      <item-list [(products)]="products" (productAdded)="recountTotal()"></item-list>
+      <item-list [(products)]="products" [(category)]="category" (productAdded)="recountTotal()"></item-list>
     </div>
     <div class="col-md-12 footer">
       <button class="btn btn-primary" (click)="clearTa()">Clear Ta</button>
@@ -29,6 +29,7 @@ import { LoginComponent } from './login/login.component';
 })
 export class MainComponent implements OnChanges, OnInit {
   products: Item[];
+  category: string;
   total: Total;
   constructor(public authService: AuthService) { }
 
@@ -64,12 +65,14 @@ export class MainComponent implements OnChanges, OnInit {
   };
   categoryChanged(val: Category){
     console.log(val.category);
+    this.category = val.category;
   }
   roundValue(val: number): number {
     return Math.round(val * 100) / 100;
   }
   clearTa():void{
     this.products = [];
+    this.category = undefined;
     this.recountTotal();
   }
 }

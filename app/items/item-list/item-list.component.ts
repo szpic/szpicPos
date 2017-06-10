@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy, SimpleChanges } from '@angular/core';
 import { Item } from '../shared/item';
 import { ItemService } from '../shared/item.service';
 
@@ -14,12 +14,13 @@ export class ItemList {
 
     }
     @Input() products: Item[];
+    @Input() category: string;
     @Output() productAdded = new EventEmitter();
     ngOnInit() {
-        this.getItems();
+        this.getItems(this.category);
     }
-    getItems(): void {
-        this.subcriber = this.itemService.getItems()
+    getItems(category: string): void {
+        this.subcriber = this.itemService.getItems(category)
             .subscribe(data => {
                 if (!!data) {
                     this.items = data;
@@ -33,5 +34,14 @@ export class ItemList {
 
     public ngOnDestroy(): void {
         this.subcriber.unsubscribe();
+    }
+    ngOnChanges(changes: SimpleChanges) {
+        if (!changes.category.currentValue) {
+            return;
+        }
+        else {
+            //category changed so reload items
+            this.getItems(this.category);
+        }
     }
 }

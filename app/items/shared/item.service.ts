@@ -13,10 +13,17 @@ export class ItemService {
 
     private url = 'http://localhost:3000/items/';
 
-    getItems(): Observable<Item[]> {
-        return this.http.get(this.url)
-            .map(this.extractData)
-            .catch(this.handleError);
+    getItems(category: string): Observable<Item[]> {
+        if (!category) {
+            return this.http.get(this.url)
+                .map(this.extractData)
+                .catch(this.handleError);
+        }
+        else {
+            return this.http.get(this.url+category+"/")
+                .map(this.extractData)
+                .catch(this.handleError);
+        }
     }
 
     private extractData(res: Response) {
