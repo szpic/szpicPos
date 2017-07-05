@@ -36,7 +36,7 @@ export class ItemList {
         this.subcriber.unsubscribe();
     }
     ngOnChanges(changes: SimpleChanges) {
-        if (!changes.category.currentValue) {
+        if ((!!changes.category && !changes.category.currentValue) || !changes.category) {
             return;
         }
         else {

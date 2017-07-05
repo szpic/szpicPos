@@ -4,7 +4,9 @@ import { Total } from './total/total';
 import { Category } from './items/shared/category';
 import { AuthService } from './auth.service';
 import { LoginComponent } from './login/login.component';
-
+import { Transaction } from './items/shared/transaction';
+import { Tab } from './items/shared/tab.component';
+import { TabsService } from './items/shared/tabs.service'
 @Component({
   selector: 'main',
   template: `
@@ -12,7 +14,9 @@ import { LoginComponent } from './login/login.component';
     <div class='col-md-5' id="leftBar">
         <total styles="" [(total)]="total"></total>
         <div id="list">
-          <bought-item-list [(products)]="products"></bought-item-list>
+        <tabs (tabChanged)="tabChanged($event)">
+          <tab *ngFor="let ta of transactions" [tabTitle]="ta.name" [ta]="ta" [products]="ta.products"></tab>
+        </tabs>
         </div>
     </div>
     <div class='col-md-2' id='categories'>
@@ -25,13 +29,17 @@ import { LoginComponent } from './login/login.component';
       <button class="btn btn-primary" (click)="clearTa()">Clear Ta</button>
       <button class="btn btn-primary" [routerLink]="['/login']" *ngIf="authService.isLoggedIn">LogOut</button>
     </div>
-  `
+  `,
+  providers: [TabsService]
 })
 export class MainComponent implements OnChanges, OnInit {
+  transactions: Transaction[];
   products: Item[];
   category: string;
   total: Total;
-  constructor(public authService: AuthService) { }
+  selectedTa: number;
+  constructor(public authService: AuthService, 
+              private tabsService: TabsService) { }
 
   ngOnInit() {
     this.fillData();
@@ -50,6 +58,8 @@ export class MainComponent implements OnChanges, OnInit {
       totalValue: 0
     };
     this.products = [];
+    this.transactions = [new Transaction(), new Transaction()];
+    this.selectedTa = 0;
   }
   recountTotal() {
     this.total.totalCount =
@@ -63,16 +73,32 @@ export class MainComponent implements OnChanges, OnInit {
     //Sometimes I am loosing accuracy:
     this.total.totalValue = this.roundValue(this.total.totalValue);
   };
-  categoryChanged(val: Category){
+  categoryChanged(val: Category) {
     console.log(val.category);
     this.category = val.category;
+  }
+  tabChanged(val: Tab) {
+    let i = 0;
+    this.selectedTa = this.transactions.findIndex((element) => {
+      return element.name === val.title;
+    });
+    this.products = this.transactions[this.selectedTa].products;
+    this.recountTotal();
   }
   roundValue(val: number): number {
     return Math.round(val * 100) / 100;
   }
-  clearTa():void{
-    this.products = [];
+  clearTa(): void {
+    
+    //this will be refactored. If closing ta then just remove it.
+    this.transactions.splice(this.selectedTa,1);
+    //then add new clean one
+    this.selectedTa =0;
+    this.transactions.push(new Transaction);
+    this.products = this.transactions[this.selectedTa].products;
     this.category = undefined;
-    this.recountTotal();
+    //inform tabs that they should refresh
+    this.tabsService.announceTabChange(this.transactions[this.selectedTa].name)
+    this.recountTotal();  
   }
 }
