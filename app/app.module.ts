@@ -16,9 +16,12 @@ import { AuthGuard } from './auth-guard.service';
 import { LoginComponent } from './login/login.component';
 import { Categories } from './items/categories/categories.component';
 import { CategoryService } from './items/shared/category.service';
-import {Tabs} from './items/shared/tabs.component';
-import {Tab} from './items/shared/tab.component';
-import {TabsService} from './items/shared/tabs.service';
+import { Tabs } from './items/shared/tabs.component';
+import { Tab } from './items/shared/tab.component';
+import { TabsService } from './items/shared/tabs.service';
+import { PaymentComponent } from './payment/payment.component';
+import { PaymentService } from './payment/payment.service';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -36,9 +39,10 @@ import {TabsService} from './items/shared/tabs.service';
     MainComponent,
     Categories,
     Tab,
-    Tabs
+    Tabs,
+    PaymentComponent
   ],
   bootstrap: [AppComponent],
-  providers: [AuthService, AuthGuard, ItemService, CategoryService, TabsService], 
+  providers: [AuthService, AuthGuard, ItemService, CategoryService, TabsService, PaymentService],
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Item } from './items/shared/item';
 import { Total } from './total/total';
 import { Category } from './items/shared/category';
@@ -6,7 +6,11 @@ import { AuthService } from './auth.service';
 import { LoginComponent } from './login/login.component';
 import { Transaction } from './items/shared/transaction';
 import { Tab } from './items/shared/tab.component';
-import { TabsService } from './items/shared/tabs.service'
+import { TabsService } from './items/shared/tabs.service';
+import { PaymentComponent } from './payment/payment.component';
+import { Subscription }   from 'rxjs/Subscription';
+import { PaymentService } from './payment/payment.service';
+
 @Component({
   selector: 'main',
   template: `
@@ -30,26 +34,26 @@ import { TabsService } from './items/shared/tabs.service'
       <button class="btn btn-primary" [routerLink]="['/login']" *ngIf="authService.isLoggedIn">LogOut</button>
       <button id="button" (click)="showModal()">Show Popup</button>
     </div>
-    <div id="modal" data-pop="slide-down" [ngClass]="{'show': isModalVisible}">
-      <div class="popupcontrols">
-        <span id="popupclose" (click)="showModal()">X</span>
-      </div>
-      <div class="popupcontent">
-          <h1>Some Popup Content</h1>
-      </div>
-    </div>
+    <payment [(isModalVisible)] ="isModalVisible"></payment>
   `,
-  providers: [TabsService]
+  providers: [TabsService, PaymentService]
 })
-export class MainComponent implements OnChanges, OnInit {
+export class MainComponent implements OnChanges, OnInit, OnDestroy {
   isModalVisible: Boolean;
   transactions: Transaction[];
   products: Item[];
   category: string;
   total: Total;
   selectedTa: number;
+  subscription: Subscription;
   constructor(public authService: AuthService, 
-              private tabsService: TabsService) { }
+              private tabsService: TabsService,
+              private paymentService: PaymentService) {
+                this.subscription = paymentService.paymentClosed$
+                .subscribe(value=> {
+                  this.showModal();
+                });
+               }
 
   ngOnInit() {
     this.fillData();
@@ -57,6 +61,10 @@ export class MainComponent implements OnChanges, OnInit {
   }
   ngOnChanges(changes: SimpleChanges) {
     alert("Wykrywam Zmiany");
+  }
+  ngOnDestroy(){
+        // prevent memory leak when component destroyed
+    this.subscription.unsubscribe();
   }
   myValueChange(event: any) {
     console.log(event);
@@ -114,4 +122,5 @@ export class MainComponent implements OnChanges, OnInit {
   showModal(): void{
     this.isModalVisible= !this.isModalVisible;
   }
+  
 }
