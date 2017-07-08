@@ -28,11 +28,21 @@ import { TabsService } from './items/shared/tabs.service'
     <div class="col-md-12 footer">
       <button class="btn btn-primary" (click)="clearTa()">Clear Ta</button>
       <button class="btn btn-primary" [routerLink]="['/login']" *ngIf="authService.isLoggedIn">LogOut</button>
+      <button id="button" (click)="showModal()">Show Popup</button>
+    </div>
+    <div id="modal" data-pop="slide-down" [ngClass]="{'show': isModalVisible}">
+      <div class="popupcontrols">
+        <span id="popupclose" (click)="showModal()">X</span>
+      </div>
+      <div class="popupcontent">
+          <h1>Some Popup Content</h1>
+      </div>
     </div>
   `,
   providers: [TabsService]
 })
 export class MainComponent implements OnChanges, OnInit {
+  isModalVisible: Boolean;
   transactions: Transaction[];
   products: Item[];
   category: string;
@@ -100,5 +110,8 @@ export class MainComponent implements OnChanges, OnInit {
     //inform tabs that they should refresh
     this.tabsService.announceTabChange(this.transactions[this.selectedTa].name)
     this.recountTotal();  
+  }
+  showModal(): void{
+    this.isModalVisible= !this.isModalVisible;
   }
 }
