@@ -9,4 +9,7 @@ export class PaymentService{
     AnnouncePaymentClosed(){
         this.paymentModalClosedSource.next(1);
     }
+    AnnouncePaymentFullfilled(){
+        this.paymentModalClosedSource.next(2);
+    }
 }

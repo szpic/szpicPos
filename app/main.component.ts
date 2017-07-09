@@ -30,11 +30,10 @@ import { PaymentService } from './payment/payment.service';
       <item-list [(products)]="products" [(category)]="category" (productAdded)="recountTotal()"></item-list>
     </div>
     <div class="col-md-12 footer">
-      <button class="btn btn-primary" (click)="clearTa()">Clear Ta</button>
+      <button class="btn btn-primary" (click)="showModal()">End Ta</button>
       <button class="btn btn-primary" [routerLink]="['/login']" *ngIf="authService.isLoggedIn">LogOut</button>
-      <button id="button" (click)="showModal()">Show Popup</button>
     </div>
-    <payment [(isModalVisible)] ="isModalVisible"></payment>
+    <payment [(total)]="total" [(isModalVisible)] ="isModalVisible"></payment>
   `,
   providers: [TabsService, PaymentService]
 })
@@ -51,7 +50,13 @@ export class MainComponent implements OnChanges, OnInit, OnDestroy {
               private paymentService: PaymentService) {
                 this.subscription = paymentService.paymentClosed$
                 .subscribe(value=> {
-                  this.showModal();
+                  if(value===1)
+                    this.showModal();
+                  else
+                  {
+                    this.showModal();
+                    this.clearTa();
+                  }  
                 });
                }
 

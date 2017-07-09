@@ -1,8 +1,20 @@
+<div id="overlay"  [ngClass]="{'show': isModalVisible}" (click)="hideMe()"></div>
 <div id="modal" data-pop="slide-down" [ngClass]="{'show': isModalVisible}">
-      <div class="popupcontrols">
-        <span id="popupclose" (click)="hideMe()">X</span>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="hideMe()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Payment</h4>
       </div>
-      <div class="popupcontent">
-          <h1>Some Popup Content</h1>
+      <div class="modal-body">
+        <p>You are about to pay {{total.totalValue}}</p>
+        <p>For {{total.totalCount}} products</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="hideMe()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="pay()">PAY</button>
       </div>
     </div>
+  </div>
+</div>
+
