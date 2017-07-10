@@ -10,7 +10,7 @@ import { TabsService } from './items/shared/tabs.service';
 import { PaymentComponent } from './payment/payment.component';
 import { Subscription }   from 'rxjs/Subscription';
 import { PaymentService } from './payment/payment.service';
-
+import { TransactionSenderService } from './items/shared/transactionSender.service';
 @Component({
   selector: 'main',
   template: `
@@ -47,7 +47,8 @@ export class MainComponent implements OnChanges, OnInit, OnDestroy {
   subscription: Subscription;
   constructor(public authService: AuthService, 
               private tabsService: TabsService,
-              private paymentService: PaymentService) {
+              private paymentService: PaymentService,
+              private transactionSenderService: TransactionSenderService) {
                 this.subscription = paymentService.paymentClosed$
                 .subscribe(value=> {
                   if(value===1)
@@ -112,7 +113,9 @@ export class MainComponent implements OnChanges, OnInit, OnDestroy {
     return Math.round(val * 100) / 100;
   }
   clearTa(): void {
-    
+    this.transactionSenderService.sendTransaction(this.transactions[this.selectedTa]).subscribe(resp =>{
+        console.log(resp);
+    }); 
     //this will be refactored. If closing ta then just remove it.
     this.transactions.splice(this.selectedTa,1);
     //then add new clean one

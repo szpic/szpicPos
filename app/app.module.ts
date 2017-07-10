@@ -21,7 +21,7 @@ import { Tab } from './items/shared/tab.component';
 import { TabsService } from './items/shared/tabs.service';
 import { PaymentComponent } from './payment/payment.component';
 import { PaymentService } from './payment/payment.service';
-
+import { TransactionSenderService } from './items/shared/transactionSender.service';
 @NgModule({
   imports: [
     BrowserModule,
@@ -43,6 +43,6 @@ import { PaymentService } from './payment/payment.service';
     PaymentComponent
   ],
   bootstrap: [AppComponent],
-  providers: [AuthService, AuthGuard, ItemService, CategoryService, TabsService, PaymentService],
+  providers: [AuthService, AuthGuard, ItemService, CategoryService, TabsService, PaymentService, TransactionSenderService],
 })
 export class AppModule { }
