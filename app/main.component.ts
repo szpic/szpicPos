@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+﻿import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Item } from './items/shared/item';
 import { Total } from './total/total';
 import { Category } from './items/shared/category';
@@ -12,6 +12,7 @@ import { Subscription }   from 'rxjs/Subscription';
 import { PaymentService } from './payment/payment.service';
 import { TransactionSenderService } from './items/shared/transactionSender.service';
 import { ReceiptCreatorService } from './printing/receiptCreator.service';
+import { ReceiptPrinterService } from './printing/receiptPrinter.service';
 @Component({
   selector: 'main',
   template: `
@@ -50,7 +51,8 @@ export class MainComponent implements OnChanges, OnInit, OnDestroy {
               private tabsService: TabsService,
               private paymentService: PaymentService,
               private transactionSenderService: TransactionSenderService,
-              private receiptCreatorService : ReceiptCreatorService) {
+              private receiptCreatorService: ReceiptCreatorService,
+              private ReceiptPrinterService: ReceiptPrinterService) {
                 this.subscription = paymentService.paymentClosed$
                 .subscribe(value=> {
                   if(value===1)
@@ -118,7 +120,7 @@ export class MainComponent implements OnChanges, OnInit, OnDestroy {
     this.transactionSenderService.sendTransaction(this.transactions[this.selectedTa]).subscribe(resp =>{
         console.log(resp);
     }); 
-    console.log(this.receiptCreatorService.createReceipt(this.transactions[this.selectedTa]));
+    this.ReceiptPrinterService.printReceipt(this.receiptCreatorService.createReceipt(this.transactions[this.selectedTa]));
     //this will be refactored. If closing ta then just remove it.
     this.transactions.splice(this.selectedTa,1);
     //then add new clean one

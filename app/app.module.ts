@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -23,6 +23,8 @@ import { PaymentComponent } from './payment/payment.component';
 import { PaymentService } from './payment/payment.service';
 import { TransactionSenderService } from './items/shared/transactionSender.service';
 import { ReceiptCreatorService } from './printing/receiptCreator.service';
+import { ReceiptPrinterService } from './printing/receiptPrinter.service';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -44,6 +46,6 @@ import { ReceiptCreatorService } from './printing/receiptCreator.service';
     PaymentComponent
   ],
   bootstrap: [AppComponent],
-  providers: [AuthService, AuthGuard, ItemService, CategoryService, TabsService, PaymentService, TransactionSenderService,ReceiptCreatorService],
+  providers: [AuthService, AuthGuard, ItemService, CategoryService, TabsService, PaymentService, TransactionSenderService, ReceiptCreatorService, ReceiptPrinterService],
 })
 export class AppModule { }
