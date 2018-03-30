@@ -8,10 +8,11 @@ import { Transaction } from './items/shared/transaction';
 import { Tab } from './items/shared/tab.component';
 import { TabsService } from './items/shared/tabs.service';
 import { PaymentComponent } from './payment/payment.component';
-import { Subscription }   from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 import { PaymentService } from './payment/payment.service';
 import { TransactionSenderService } from './items/shared/transactionSender.service';
 import { ReceiptCreatorService } from './printing/receiptCreator.service';
+import { TablesComponent } from './tables/tables.component';
 @Component({
   selector: 'main',
   template: `
@@ -35,6 +36,7 @@ import { ReceiptCreatorService } from './printing/receiptCreator.service';
       <button class="btn btn-primary" [routerLink]="['/login']" *ngIf="authService.isLoggedIn">LogOut</button>
     </div>
     <payment [(total)]="total" [(isModalVisible)] ="isModalVisible"></payment>
+    <tables></tables>
   `,
   providers: [TabsService, PaymentService]
 })
@@ -46,22 +48,21 @@ export class MainComponent implements OnChanges, OnInit, OnDestroy {
   total: Total;
   selectedTa: number;
   subscription: Subscription;
-  constructor(public authService: AuthService, 
-              private tabsService: TabsService,
-              private paymentService: PaymentService,
-              private transactionSenderService: TransactionSenderService,
-              private receiptCreatorService : ReceiptCreatorService) {
-                this.subscription = paymentService.paymentClosed$
-                .subscribe(value=> {
-                  if(value===1)
-                    this.showModal();
-                  else
-                  {
-                    this.showModal();
-                    this.clearTa();
-                  }  
-                });
-               }
+  constructor(public authService: AuthService,
+    private tabsService: TabsService,
+    private paymentService: PaymentService,
+    private transactionSenderService: TransactionSenderService,
+    private receiptCreatorService: ReceiptCreatorService) {
+    this.subscription = paymentService.paymentClosed$
+      .subscribe(value => {
+        if (value === 1)
+          this.showModal();
+        else {
+          this.showModal();
+          this.clearTa();
+        }
+      });
+  }
 
   ngOnInit() {
     this.fillData();
@@ -70,8 +71,8 @@ export class MainComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     alert("Wykrywam Zmiany");
   }
-  ngOnDestroy(){
-        // prevent memory leak when component destroyed
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }
   myValueChange(event: any) {
@@ -115,23 +116,23 @@ export class MainComponent implements OnChanges, OnInit, OnDestroy {
     return Math.round(val * 100) / 100;
   }
   clearTa(): void {
-    this.transactionSenderService.sendTransaction(this.transactions[this.selectedTa]).subscribe(resp =>{
-        console.log(resp);
-    }); 
+    this.transactionSenderService.sendTransaction(this.transactions[this.selectedTa]).subscribe(resp => {
+      console.log(resp);
+    });
     console.log(this.receiptCreatorService.createReceipt(this.transactions[this.selectedTa]));
     //this will be refactored. If closing ta then just remove it.
-    this.transactions.splice(this.selectedTa,1);
+    this.transactions.splice(this.selectedTa, 1);
     //then add new clean one
-    this.selectedTa =0;
+    this.selectedTa = 0;
     this.transactions.push(new Transaction);
     this.products = this.transactions[this.selectedTa].products;
     this.category = undefined;
     //inform tabs that they should refresh
     this.tabsService.announceTabChange(this.transactions[this.selectedTa].name)
-    this.recountTotal();  
+    this.recountTotal();
   }
-  showModal(): void{
-    this.isModalVisible= !this.isModalVisible;
+  showModal(): void {
+    this.isModalVisible = !this.isModalVisible;
   }
-  
+
 }

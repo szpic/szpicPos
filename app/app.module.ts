@@ -23,6 +23,7 @@ import { PaymentComponent } from './payment/payment.component';
 import { PaymentService } from './payment/payment.service';
 import { TransactionSenderService } from './items/shared/transactionSender.service';
 import { ReceiptCreatorService } from './printing/receiptCreator.service';
+import { TablesComponent } from './tables/tables.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -41,7 +42,8 @@ import { ReceiptCreatorService } from './printing/receiptCreator.service';
     Categories,
     Tab,
     Tabs,
-    PaymentComponent
+    PaymentComponent,
+    TablesComponent
   ],
   bootstrap: [AppComponent],
   providers: [AuthService, AuthGuard, ItemService, CategoryService, TabsService, PaymentService, TransactionSenderService,ReceiptCreatorService],
